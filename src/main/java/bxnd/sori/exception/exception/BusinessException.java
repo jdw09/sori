@@ -2,7 +2,6 @@ package bxnd.sori.exception.exception;
 
 import bxnd.sori.exception.errorcode.ErrorCode;
 import lombok.Getter;
-import sh4re_v2.sh4re_v2.exception.error_code.ErrorCode;
 
 @Getter
 public class BusinessException extends RuntimeException {
