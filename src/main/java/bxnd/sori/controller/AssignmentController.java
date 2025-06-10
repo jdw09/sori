@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AssignmentController {
 
-//    private final AssignmentServiceImpl assignmentService;
+    private final AssignmentServiceImpl assignmentService;
 
-//    @PostMapping
-//    public ResponseEntity<AssignmentResponseDto> createAssignment(
-//            @RequestBody AssignmentRequestDto requestDto) {
-//        AssignmentResponseDto response = assignmentService.createAssignment(requestDto);
-//        return ResponseEntity.ok(response);
-//    }
+    @PostMapping
+    public ResponseEntity<AssignmentResponseDto> createAssignment(
+            @RequestBody AssignmentRequestDto requestDto) {
+        AssignmentResponseDto response = assignmentService.createAssignment(requestDto);
+        return ResponseEntity.ok(response);
+    }
 }

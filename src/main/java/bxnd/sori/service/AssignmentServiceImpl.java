@@ -13,21 +13,20 @@ public class AssignmentServiceImpl {
 
     private final AssignmentRepository assignmentRepository;
 
-    public void createAssignment(AssignmentRequestDto requestDto) {
-//        Assignment assignment = Assignment.builder()
-//                .title(requestDto.getTitle())
-//                .content(requestDto.getContent())
-//                .dueDate(requestDto.getDueDate())
-//                .build();
-//
-//        Assignment saved = assignmentRepository.save(assignment);
-//
-//        return AssignmentResponseDto.builder()
-//                .id(saved.getId())
-//                .title(saved.getTitle())
-//                .content(saved.getContent())
-//                .dueDate(saved.getDueDate())
-//              .build();
-        return;
+    public AssignmentResponseDto createAssignment(AssignmentRequestDto requestDto) {
+        Assignment assignment = Assignment.builder()
+                .title(requestDto.getTitle())
+                .content(requestDto.getContent())
+                .dueDate(requestDto.getDueDate())
+                .build();
+
+        Assignment saved = assignmentRepository.save(assignment);
+
+        return AssignmentResponseDto.builder()
+                .id(saved.getId())
+                .title(saved.getTitle())
+                .content(saved.getContent())
+                .dueDate(saved.getDueDate())
+                .build();
     }
 }

@@ -1,4 +1,4 @@
-package bxnd.sori.Config;
+package bxnd.sori.config;
 
 import bxnd.sori.Jwt.JwtAuthenticationEntryPoint;
 import bxnd.sori.Jwt.JwtAuthenticationFilter;
