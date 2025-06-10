@@ -2,6 +2,7 @@ package bxnd.sori.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.sql.Date;
 import java.time.LocalDateTime;
 
