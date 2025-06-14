@@ -1,14 +1,12 @@
-package bxnd.sori.jwt;
+package bxnd.sori.Jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.sql.SQLOutput;
 import java.util.Date;
 
 @Component
@@ -17,18 +15,20 @@ public class JwtProvider {
     private final Key key;
     private final long validityInMilliseconds = 3600000;
 
+    @Value("${jwt.access-token-expiration}")
+    private long accessTokenExpiration;
+
     public JwtProvider(@Value("${jwt.secret}") String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String createToken(String username, String role) {
+    public String createAccessToken(String username, String role) {
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
-        return Jwts.builder()
-                .setSubject(username)
-                .claim("role", role)
-                .setIssuedAt(now)
-                .setExpiration(validity)
+        Date expiry = new Date(now.getTime() + accessTokenExpiration);
+
+        return Jwts.builder().subject(username)
+                .claim("role", role).issuedAt(now).expiration(expiry)
+                .expiration(expiry)
                 .signWith(key)
                 .compact();
     }
@@ -69,4 +69,13 @@ public class JwtProvider {
         }
         return false;
     }
-}
+
+    public String getUsernameFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getSubject();
+    }
