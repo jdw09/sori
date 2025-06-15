@@ -25,7 +25,7 @@ public class Assignment extends BaseEntity {
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime deadline;
+    private LocalDateTime deadline; // java.sql.Date -> LocalDateTime
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false) // 관계 추가

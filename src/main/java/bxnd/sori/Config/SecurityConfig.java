@@ -1,5 +1,7 @@
-package bxnd.sori.config;
+package bxnd.sori.Config;
 
+import bxnd.sori.Jwt.JwtAuthenticationEntryPoint;
+import bxnd.sori.Jwt.JwtAuthenticationFilter;
 import bxnd.sori.Jwt.JwtAuthenticationFilter;
 import bxnd.sori.Jwt.JwtAuthenticationEntryPoint;
 import bxnd.sori.Jwt.JwtAuthenticationFilter;
@@ -37,7 +39,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -47,8 +49,8 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()   // 로그인, 회원가입 허용
-                        .requestMatchers("/assignments/**").authenticated()  // 나머지는 인증 필요
+                        .requestMatchers("/member/*").permitAll()
+                        .requestMatchers("/admin").hasAuthority(ADMIN)
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
