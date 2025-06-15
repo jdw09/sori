@@ -1,9 +1,11 @@
 package bxnd.sori.service;
 
-import bxnd.sori.dto.AssignmentRequestDto;
-import bxnd.sori.dto.AssignmentResponseDto;
+import bxnd.sori.dto.assignment.AssignmentRequest;
+import bxnd.sori.dto.assignment.AssignmentResponse;
 import bxnd.sori.entity.Assignment;
 import bxnd.sori.entity.Member;
+import bxnd.sori.exception.errorcode.AuthErrorCode;
+import bxnd.sori.exception.exception.BusinessException;
 import bxnd.sori.repository.AssignmentRepository;
 import bxnd.sori.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +19,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AssignmentServiceImpl {
+public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
     private final MemberRepository memberRepository;
 
-    public AssignmentResponseDto createAssignment(AssignmentRequestDto requestDto) {
+    public AssignmentResponse createAssignment(AssignmentRequest requestDto) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
         // JWT 인증된 사용자 이름 가져오기
@@ -31,23 +33,23 @@ public class AssignmentServiceImpl {
 
         // 사용자 찾기 (userNm 기준)
         Member author = memberRepository.findByUserNm(username)
-                .orElseThrow(() -> new RuntimeException("작성자 정보가 없습니다."));
+                .orElseThrow(() -> AuthErrorCode.USER_NOT_FOUND.defaultException("작성자 정보가 없습니다."));
 
         Assignment assignment = Assignment.builder()
-                .title(requestDto.getTitle())
-                .content(requestDto.getContent())
-                .deadline(LocalDateTime.parse(requestDto.getDueDate(), formatter))
+                .title(requestDto.title())
+                .content(requestDto.content())
+                .deadline(LocalDateTime.parse(requestDto.dueDate(), formatter))
                 .author(author) //
                 .build();
 
         Assignment saved = assignmentRepository.save(assignment);
 
-        return AssignmentResponseDto.builder()
-                .id(saved.getId())
-                .title(saved.getTitle())
-                .content(saved.getContent())
-                .dueDate(saved.getDeadline().format(formatter))
-                .build();
+        return new AssignmentResponse(
+            saved.getId(),
+            saved.getTitle(),
+            saved.getContent(),
+            saved.getDeadline().format(formatter)
+        );
     }
 
     public List<Assignment> getAllAssignments() {
