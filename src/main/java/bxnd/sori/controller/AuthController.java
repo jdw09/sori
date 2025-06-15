@@ -1,8 +1,9 @@
 package bxnd.sori.controller;
 
-import bxnd.sori.dto.SignupRequestDto;
-import bxnd.sori.dto.LoginRequestDto;
+import bxnd.sori.dto.signup.SignupRequest;
+import bxnd.sori.dto.login.LoginRequest;
 import bxnd.sori.service.MemberService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +15,13 @@ public class AuthController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public String signup(@RequestBody SignupRequestDto request) {
-        memberService.signup(request.getUsername(), request.getPassword(), request.getEmail());
+    public String signup(@Valid @RequestBody SignupRequest request) {
+        memberService.signup(request.username(), request.password(), request.email());
         return "회원가입 성공!";
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequestDto request) {
-        return memberService.login(request.getUsername(), request.getPassword());
+    public String login(@Valid @RequestBody LoginRequest request) {
+        return memberService.login(request.username(), request.password());
     }
 }
