@@ -40,6 +40,6 @@ public class MemberService {
             throw AuthErrorCode.INVALID_CREDENTIALS.defaultException();
         }
 
-        return jwtProvider.createAccessToken(member.getUserNm());
+        return jwtProvider.createAccessToken(member.getUserNm(), member.getRole());
     }
 }

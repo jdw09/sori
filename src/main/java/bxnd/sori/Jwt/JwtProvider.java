@@ -29,32 +29,33 @@ public class JwtProvider {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + validityInMilliseconds);
 
-        return Jwts.builder().subject(username)
-                .claim("role", role).issuedAt(now).expiration(expiry)
+        return Jwts.builder().setSubject(username)
+                .claim("role", role).setIssuedAt(now).setExpiration(expiry)
                 .signWith(key)
                 .compact();
     }
 
     public String getUsername(String token) {
-        Claims claims = Jwts.parser()
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
-                .build().parseSignedClaims(token).getPayload();
+                .build()
+                .parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
 
     public String getRole(String token) {
-        Claims claims = Jwts.parser()
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
-                .build().parseSignedClaims(token).getPayload();
+                .build().parseClaimsJws(token).getBody();
         return claims.get("role", String.class);
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser()
+            Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseSignedClaims(token);
+                    .parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException e) {
             System.out.println("토큰 만료: " + e.getMessage());
@@ -69,11 +70,11 @@ public class JwtProvider {
     }
 
     public String getUsernameFromToken(String token) {
-        Claims claims = Jwts.parser()
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseSignedClaims(token)
-                .getPayload();
+                .parseClaimsJws(token)
+                .getBody();
 
         return claims.getSubject();
     }
