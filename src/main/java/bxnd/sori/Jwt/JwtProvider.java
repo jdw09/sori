@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.sql.SQLOutput;
 import java.util.Date;
 
 @Component
@@ -16,7 +17,7 @@ public class JwtProvider {
     private final Key key;
     private final long validityInMilliseconds = 3600000;
 
-    public JwtProvider(@Value("${jwt.secret}")String secret) {
+    public JwtProvider(@Value("${jwt.secret}") String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -25,7 +26,7 @@ public class JwtProvider {
         Date validity = new Date(now.getTime() + validityInMilliseconds);
         return Jwts.builder()
                 .setSubject(username)
-                .claim("role",role)
+                .claim("role", role)
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(key)
@@ -33,7 +34,7 @@ public class JwtProvider {
     }
 
     public String getUsername(String token) {
-        Claims claims =  Jwts.parser()
+        Claims claims = Jwts.parser()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
@@ -57,9 +58,15 @@ public class JwtProvider {
                     .build()
                     .parseClaimsJws(token);
             return true;
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            System.out.println("토큰 만료: " + e.getMessage());
+        } catch (io.jsonwebtoken.MalformedJwtException e) {
+            System.out.println("잘못된 토큰 형식: " + e.getMessage());
+        }  catch (io.jsonwebtoken.SignatureException e) {
+            System.out.println("서명 오류:" + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("기타 jwt 예외: " + e.getMessage());
         }
-        catch (Exception e) {
-            return false;
-        }
+        return false;
     }
 }
