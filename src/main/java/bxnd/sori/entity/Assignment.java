@@ -21,7 +21,7 @@ public class Assignment extends BaseEntity {
     @Column(nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(nullable = false)
     private String content;
 
     @Column(nullable = false)
