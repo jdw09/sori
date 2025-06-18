@@ -2,6 +2,7 @@ package bxnd.sori.controller;
 
 import bxnd.sori.dto.signup.SignupRequest;
 import bxnd.sori.dto.login.LoginRequest;
+import bxnd.sori.dto.signup.SignupResponse;
 import bxnd.sori.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +16,8 @@ public class AuthController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public String signup(@Valid @RequestBody SignupRequest request) {
-        memberService.signup(request.username(), request.password(), request.email());
-        return "회원가입 성공!";
+    public SignupResponse signup(@Valid @RequestBody SignupRequest request) {
+        return memberService.signup(request.username(), request.password(), request.email());
     }
 
     @PostMapping("/login")

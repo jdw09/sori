@@ -17,6 +17,7 @@ public enum AuthErrorCode implements ErrorCode {
   ACCOUNT_DISABLED("ACCOUNT_DISABLED", "계정이 비활성화되었습니다.", HttpStatus.UNAUTHORIZED),
   INVALID_CREDENTIALS("INVALID_CREDENTIALS", "아이디 또는 비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
   ALREADY_EXISTS_USERNAME("ALREADY_EXISTS_USERNAME", "해당 아이디를 가진 유저가 이미 존재합니다.", HttpStatus.BAD_REQUEST),
+  ALREADY_EXISTS_EMAIL("ALREADY_EXISTS_EMAIL", "해당 이메일을 가진 유저가 이미 존재합니다.", HttpStatus.BAD_REQUEST),
   ALREADY_LOGGED_OUT_USER("ALREADY_LOGGED_OUT_USER", "이미 로그아웃된 계정입니다.", HttpStatus.BAD_REQUEST),
   AUTHENTICATION_FAILED("AUTHENTICATION_FAILED", "인증에 실패하였습니다.", HttpStatus.UNAUTHORIZED),
   SCHOOL_NOT_FOUND("SCHOOL_NOT_FOUND", "존재하지 않는 학교 코드입니다.", HttpStatus.BAD_REQUEST),

@@ -1,6 +1,7 @@
 package bxnd.sori.service;
 
 import bxnd.sori.Jwt.JwtProvider;
+import bxnd.sori.dto.signup.SignupResponse;
 import bxnd.sori.entity.Member;
 import bxnd.sori.exception.errorcode.AuthErrorCode;
 import bxnd.sori.repository.MemberRepository;
@@ -16,10 +17,14 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-    public void signup(String userNm, String password, String email) {
+    public SignupResponse signup(String userNm, String password, String email) {
         if (memberRepository.findByUserNm(userNm).isPresent()) {
             // throw new RuntimeException("이미 존재하는 사용자입니다.");
             throw AuthErrorCode.ALREADY_EXISTS_USERNAME.defaultException();
+        }
+
+        if(memberRepository.findByEmail(email).isPresent()) {
+            throw AuthErrorCode.ALREADY_EXISTS_EMAIL.defaultException();
         }
 
         Member member = Member.builder()
@@ -30,6 +35,8 @@ public class MemberService {
                 .build();
 
         memberRepository.save(member);
+
+        return new SignupResponse();
     }
 
     public String login(String userNm, String password) {
