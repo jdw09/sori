@@ -1,4 +1,10 @@
 package bxnd.sori.dto.comment;
 
-public class CommentResponce {
-}
+import bxnd.sori.entity.AllAnnounce;
+import bxnd.sori.entity.Member;
+
+public record CommentResponse(
+    Long id,
+    String content,
+    AllAnnounce allAnnounce
+){}

@@ -1,4 +1,7 @@
 package bxnd.sori.repository;
 
-public interface CommentRepository {
+import bxnd.sori.entity.PostComment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CommentRepository extends JpaRepository<PostComment, Long> {
 }
