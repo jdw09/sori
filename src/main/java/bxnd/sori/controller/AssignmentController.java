@@ -2,6 +2,7 @@ package bxnd.sori.controller;
 
 import bxnd.sori.dto.assignment.AssignmentRequest;
 import bxnd.sori.dto.assignment.AssignmentResponse;
+import bxnd.sori.dto.assignments.AssignmentsResponse;
 import bxnd.sori.entity.Assignment;
 import bxnd.sori.service.AssignmentService;
 import jakarta.validation.Valid;
@@ -18,12 +19,12 @@ public class AssignmentController {
     private final AssignmentService assignmentService;
 
     @GetMapping
-    public List<Assignment> getAll() {
+    public AssignmentsResponse getAll() {
         return assignmentService.getAllAssignments();
     }
 
     @PostMapping
-    public AssignmentResponse create(@Valid @RequestBody AssignmentRequest requestDto) {
-        return assignmentService.createAssignment(requestDto);
+    public AssignmentResponse create(@Valid @RequestBody AssignmentRequest request) {
+        return assignmentService.createAssignment(request);
     }
 }

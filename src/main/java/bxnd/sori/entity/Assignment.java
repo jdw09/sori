@@ -12,12 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Assignment extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "assignment_id") // PK 컬럼명 매핑
-    private Long id;
-
     @Column(nullable = false)
     private String title;
 
@@ -27,7 +21,7 @@ public class Assignment extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime deadline;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false) // 관계 추가
     private Member author;
 }
