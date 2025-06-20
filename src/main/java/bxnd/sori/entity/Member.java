@@ -33,4 +33,11 @@ public class Member { // member 테이블은 updated_at이 없으므로 BaseEnti
   @CreatedDate
   @Column(updatable = false, name = "created_at")
   private LocalDateTime createdAt;
+
+  @PrePersist
+  public void prePersist() {
+    if (createdAt == null) {
+      createdAt = LocalDateTime.now();
+    }
+  }
 }

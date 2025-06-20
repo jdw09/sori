@@ -3,9 +3,11 @@ package bxnd.sori.service;
 
 import bxnd.sori.dto.comment.CommentRequest;
 import bxnd.sori.dto.comment.CommentResponse;
+import bxnd.sori.entity.AllAnnounce;
 import bxnd.sori.entity.Member;
 import bxnd.sori.entity.PostComment;
 import bxnd.sori.exception.errorcode.AuthErrorCode;
+import bxnd.sori.repository.AllAnnounceRepository;
 import bxnd.sori.repository.CommentRepository;
 import bxnd.sori.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
+    private final AllAnnounceRepository allAnnounceRepository;
 
     public CommentResponse addComment(CommentRequest commentRequest) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -26,9 +29,13 @@ public class CommentService {
         Member author = memberRepository.findByUserNm(username)
                 .orElseThrow(() -> AuthErrorCode.USER_NOT_FOUND.defaultException("작성자 정보가 없습니다."));
 
+        AllAnnounce announce = allAnnounceRepository.findById(commentRequest.post_id())
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+
         PostComment comment = PostComment.builder()
                 .content(commentRequest.content())
                 .author(author)
+                .allAnnounce(announce)
                 .build();
 
         PostComment saved = commentRepository.save(comment);
