@@ -1,5 +1,8 @@
 package bxnd.sori.dto.assignments;
 
-public class AssignmentsResponse {
+import bxnd.sori.entity.Assignment;
+import java.util.List;
 
-}
+public record AssignmentsResponse(
+    List<Assignment> assignments
+) {}

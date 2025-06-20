@@ -12,12 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Member { // member 테이블은 updated_at이 없으므로 BaseEntity 상속 제외
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
+public class Member extends BaseEntity { // member 테이블은 updated_at이 없으므로 BaseEntity 상속 제외
   @Column(name = "user_nm", nullable = false, length = 45)
   private String userNm;
 
@@ -29,8 +24,4 @@ public class Member { // member 테이블은 updated_at이 없으므로 BaseEnti
 
   @Column(nullable = false, length = 20)
   private String role;
-
-  @CreatedDate
-  @Column(updatable = false, name = "created_at")
-  private LocalDateTime createdAt;
 }

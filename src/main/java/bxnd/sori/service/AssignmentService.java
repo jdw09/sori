@@ -2,6 +2,7 @@ package bxnd.sori.service;
 
 import bxnd.sori.dto.assignment.AssignmentRequest;
 import bxnd.sori.dto.assignment.AssignmentResponse;
+import bxnd.sori.dto.assignments.AssignmentsResponse;
 import bxnd.sori.entity.Assignment;
 import bxnd.sori.entity.Member;
 import bxnd.sori.exception.errorcode.AuthErrorCode;
@@ -24,7 +25,7 @@ public class AssignmentService {
     private final AssignmentRepository assignmentRepository;
     private final MemberRepository memberRepository;
 
-    public AssignmentResponse createAssignment(AssignmentRequest requestDto) {
+    public AssignmentResponse createAssignment(AssignmentRequest request) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
         // JWT 인증된 사용자 이름 가져오기
@@ -36,9 +37,9 @@ public class AssignmentService {
                 .orElseThrow(() -> AuthErrorCode.USER_NOT_FOUND.defaultException("작성자 정보가 없습니다."));
 
         Assignment assignment = Assignment.builder()
-                .title(requestDto.title())
-                .content(requestDto.content())
-                .deadline(LocalDateTime.parse(requestDto.dueDate(), formatter))
+                .title(request.title())
+                .content(request.content())
+                .deadline(LocalDateTime.parse(request.dueDate(), formatter))
                 .author(author) //
                 .build();
 
@@ -52,7 +53,8 @@ public class AssignmentService {
         );
     }
 
-    public List<Assignment> getAllAssignments() {
-        return assignmentRepository.findAll();
+    public AssignmentsResponse getAllAssignments() {
+        List<Assignment> assignments = assignmentRepository.findAll();
+        return new AssignmentsResponse(assignments);
     }
 }

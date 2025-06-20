@@ -17,11 +17,11 @@ public class AuthController {
 
     @PostMapping("/signup")
     public SignupResponse signup(@Valid @RequestBody SignupRequest request) {
-        return memberService.signup(request.username(), request.password(), request.email());
+        return memberService.signup(request);
     }
 
     @PostMapping("/login")
     public String login(@Valid @RequestBody LoginRequest request) {
-        return memberService.login(request.username(), request.password());
+        return memberService.login(request);
     }
 }
