@@ -33,5 +33,5 @@ public class PostComment {
     private Member author;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private AllAnnounce allAnnounce;
+    private Announce announce;
 }
