@@ -2,6 +2,7 @@ package bxnd.sori.service;
 
 import bxnd.sori.dto.CreateAnnounce.CreateAnnounceRequest;
 import bxnd.sori.dto.CreateAnnounce.CreateAnnounceResponse;
+import bxnd.sori.dto.DeleteAnnounce.DeleteAnnouneResponse;
 import bxnd.sori.dto.GetAllAnnounces.GetAllAnnouncesResponse;
 import bxnd.sori.dto.GetAnnounceById.GetAnnounceByIdResponse;
 import bxnd.sori.dto.UpdateAnnounce.UpdateAnnounceRequest;
@@ -62,5 +63,18 @@ public class AnnounceService {
     if(request.content() != null) announce.setContent(request.content());
     announceRepository.save(announce);
     return new UpdateAnnounceResponse(announce.getId());
+  }
+
+  public DeleteAnnouneResponse deleteAnnounce(Long announceId) {
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    Optional<Member> authorOpt = memberRepository.findByUserNm(username);
+    if(authorOpt.isEmpty()) throw AuthErrorCode.USER_NOT_FOUND.defaultException();
+    Member author = authorOpt.get();
+    Optional<Announce> announceOpt = announceRepository.findById(announceId);
+    if(announceOpt.isEmpty()) throw AnnounceErrorCode.ANNOUNCE_NOT_FOUND.defaultException();
+    Announce announce = announceOpt.get();
+    if(!announce.getAuthor().getId().equals(author.getId())) throw AuthErrorCode.PERMISSION_DENIED.defaultException();
+    announceRepository.delete(announce);
+    return new DeleteAnnouneResponse();
   }
 }
