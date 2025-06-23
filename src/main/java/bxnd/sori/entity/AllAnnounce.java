@@ -12,11 +12,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class AllAnnounce extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id") // PK 컬럼명 매핑
-    private Long id;
-
     @Column(nullable = false)
     private String title;
 
@@ -25,6 +20,5 @@ public class AllAnnounce extends BaseEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", nullable = false)
     private Member author;
 }

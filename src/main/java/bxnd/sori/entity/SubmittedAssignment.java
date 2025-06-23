@@ -19,6 +19,5 @@ public class SubmittedAssignment extends BaseEntity {
     private boolean checked_flag;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", nullable = false)
     private Member author; // Member 엔티티 자체를 필드로 가짐
 }

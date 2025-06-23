@@ -30,10 +30,8 @@ public class PostComment {
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_user_id", nullable = false)
     private Member author;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false) // 관계 추가
     private AllAnnounce allAnnounce;
 }

@@ -22,6 +22,5 @@ public class Assignment extends BaseEntity {
     private LocalDateTime deadline;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id", nullable = false) // 관계 추가
     private Member author;
 }
