@@ -1,5 +1,6 @@
 package bxnd.sori.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Announce extends BaseEntity {
+public class AllAnnounce extends BaseEntity {
     @Column(nullable = false)
     private String title;
 
@@ -18,6 +19,6 @@ public class Announce extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member author;
 }

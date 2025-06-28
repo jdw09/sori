@@ -1,6 +1,5 @@
 package bxnd.sori.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -20,7 +19,6 @@ public class Member extends BaseEntity { // member 테이블은 updated_at이 �
   @Column(nullable = false, unique = true)
   private String email;
 
-  @JsonIgnore
   @Column(nullable = false)
   private String password;
 
