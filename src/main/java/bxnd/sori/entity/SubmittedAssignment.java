@@ -10,9 +10,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class SubmittedAssignment extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long assignment_id;
+
     private String title;
     private String content;
     private boolean date_over_flag;

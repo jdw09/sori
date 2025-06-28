@@ -6,7 +6,6 @@ import bxnd.sori.dto.assignments.AssignmentsResponse;
 import bxnd.sori.entity.Assignment;
 import bxnd.sori.entity.Member;
 import bxnd.sori.exception.errorcode.AuthErrorCode;
-import bxnd.sori.exception.exception.BusinessException;
 import bxnd.sori.repository.AssignmentRepository;
 import bxnd.sori.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
