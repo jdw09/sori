@@ -36,8 +36,13 @@ public class AssignmentController {
         return submissionService.createSubmission(request);
     }
 
-    @GetMapping("/submit/C")
+    @GetMapping("/submit")
     public List<SubmissionResponse> getSubmissions(@RequestParam String title) {
         return submissionService.getSubmissions(title);
+    }
+
+    @PatchMapping("/submit")
+    public SubmissionResponse Cheak(@RequestParam String title, @RequestParam Long Id) {
+        return submissionService.updateCheckedFlag(title, Id);
     }
 }
