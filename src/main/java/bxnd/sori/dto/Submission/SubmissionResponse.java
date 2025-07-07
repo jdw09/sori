@@ -1,8 +1,11 @@
 package bxnd.sori.dto.Submission;
 
 public record SubmissionResponse(
+        Long id,
         String title,
         String content,
-        boolean Deadline
+        String username,
+        boolean Deadline,
+        boolean isChecked
 )
 { }
