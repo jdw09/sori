@@ -5,8 +5,6 @@ import bxnd.sori.dto.Submission.SubmissionResponse;
 import bxnd.sori.dto.assignment.AssignmentRequest;
 import bxnd.sori.dto.assignment.AssignmentResponse;
 import bxnd.sori.dto.assignments.AssignmentsResponse;
-import bxnd.sori.entity.Assignment;
-import bxnd.sori.entity.SubmittedAssignment;
 import bxnd.sori.service.AssignmentService;
 import bxnd.sori.service.SubmissionService;
 import jakarta.validation.Valid;
@@ -36,5 +34,10 @@ public class AssignmentController {
     @PostMapping("/submit")
     public SubmissionResponse submit(@Valid @RequestBody SubmissionRequest request) {
         return submissionService.createSubmission(request);
+    }
+
+    @GetMapping("/submit/C")
+    public List<SubmissionResponse> getSubmissions(@RequestParam String title) {
+        return submissionService.getSubmissions(title);
     }
 }
