@@ -68,4 +68,28 @@ public class SubmissionService {
                 ))
                 .toList();
     }
+
+    public SubmissionResponse updateCheckedFlag(String title, Long Id) {
+        List<SubmittedAssignment> submit = submissionRepository.findByTitle(title);
+        SubmittedAssignment submission = submit.stream()
+                .filter(s -> s.getId().equals(Id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("과제를 찾을 수 없습니다."));
+
+        if (submission.isChecked_flag() == false) {
+            submission.setChecked_flag(true);
+            submissionRepository.save(submission);
+        } else {
+            submission.setChecked_flag(false);
+            submissionRepository.save(submission);
+        }
+        return new SubmissionResponse(
+                submission.getId(),
+                submission.getTitle(),
+                submission.getContent(),
+                submission.getAuthor().getUserNm(),
+                submission.isDate_over_flag(),
+                submission.isChecked_flag()
+        );
+    }
 }
